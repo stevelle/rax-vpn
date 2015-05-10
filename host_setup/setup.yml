@@ -1,0 +1,18 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: False
+  tasks:
+  - name: Setup Rackspace Host instance
+    local_action: 
+      module: rax
+      auto_increment: "no"
+      name: "{{ rax_name }}"
+      key_name: "{{ key_name }}"
+      region: "IAD"
+      flavor: "2"
+      image: "Ubuntu 14.04 LTS (Trusty Tahr) (PV)"
+      group: "rax-vpn"
+      wait: yes
+    register: rax
+

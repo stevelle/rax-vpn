@@ -1,0 +1,52 @@
+---
+- name: Secure a new Rackspace host
+  user: root
+  hosts: rax-vpn
+
+  tasks:
+    - name: Create admin group
+      group:
+        name=admin
+
+    - name: Create operator user
+      user: 
+        name="{{ operator }}"
+        groups=admin
+        shell=/bin/bash
+
+    - name: Revoke pw required to sudo
+      lineinfile: "dest=/etc/sudoers  regexp='^%admin' line='%admin ALL=(ALL) NOPASSWD: ALL' validate='visudo -cf %s'"
+
+    - name: Specify authorized key 
+      authorized_key: 
+        user="{{ operator }}"
+        key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+        manage_dir=yes
+
+    - name: Secure root account 
+      lineinfile:
+        dest=/etc/ssh/sshd_config
+        regexp='^PermitRootLogin'
+        line='PermitRootLogin no'
+
+    - name: Forbit password auth
+      lineinfile:
+        dest=/etc/ssh/sshd_config
+        regexp='^PasswordAuthentication'
+        line='PasswordAuthentication no' 
+
+    - name: Disallow DNS lookups by sshd
+      lineinfile:
+        dest=/etc/ssh/sshd_config
+        regexp='^UseDNS'
+        line='UseDNS no' 
+
+    - name: Whitelist operator
+      lineinfile:
+        dest=/etc/ssh/sshd_config
+        regexp='^AllowUsers'
+        line="AllowUsers {{ operator}}"
+
+    - name: Restart sshd
+      command: /usr/sbin/service ssh restart
+      
