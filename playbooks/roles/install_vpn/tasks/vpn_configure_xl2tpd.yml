@@ -1,0 +1,22 @@
+---
+- name: Apply xl2tpd configuration files
+  copy: 
+    src: "{{ item.src }}" 
+    dest: "{{ item.dest }}"
+    mode: "0644"
+  with_items:
+    - { src: "xl2tpd.conf", dest: "/etc/xl2tpd/xl2tpd.conf" }
+    - { src: "options.xl2tpd", dest: "/etc/ppp/options.xl2tpd" }
+  sudo: yes
+  notify:
+    - Restart xl2tpd
+
+- name: Configure auth credentials
+  template: 
+    src: "chap-secrets.j2" 
+    dest: "/etc/ppp/chap-secrets"
+    mode: "0600"
+  sudo: yes
+  notify:
+    - Restart xl2tpd
+

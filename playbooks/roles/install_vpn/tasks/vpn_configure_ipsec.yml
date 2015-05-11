@@ -1,0 +1,13 @@
+---
+- name: Apply ipsec configuration
+  template: 
+    src: "{{ item.src }}" 
+    dest: "{{ item.dest }}" 
+    mode: "{{ item.mode|default('0644') }}"
+  with_items:
+    - { src: "ipsec.conf.j2", dest: "/etc/ipsec.conf" }
+    - { src: "ipsec.secrets.j2", dest: "/etc/ipsec.secrets", mode: "0600" }
+  sudo: yes
+  notify:
+    - Restart ipsec
+ 

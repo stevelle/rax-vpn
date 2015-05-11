@@ -1,0 +1,8 @@
+---
+
+- name: Installation and set of vpn using libreswan
+  hosts: rax-vpn
+  user: "{{ operator }}"
+  roles:
+    - { role: "install_vpn" }
+

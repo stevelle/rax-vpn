@@ -1,0 +1,22 @@
+---
+- name: install required packages 
+  apt: update_cache=yes cache_valid_time=3600 name="{{ item }}"
+  with_items:
+    - libnss3-dev
+    - libnspr4-dev
+    - pkg-config
+    - libpam0g-dev
+    - libcap-ng-dev
+    - libcap-ng-utils
+    - libselinux1-dev
+    - libcurl4-nss-dev
+    - libgmp3-dev
+    - flex
+    - bison
+    - gcc
+    - make
+    - libunbound-dev
+    - libnss3-tools
+    - xl2tpd
+  sudo: yes
+

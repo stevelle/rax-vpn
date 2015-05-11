@@ -1,0 +1,8 @@
+---
+- include: vpn_install_packages.yml
+- include: vpn_install_libreswan.yml
+- include: vpn_update_sysctl.yml
+- include: vpn_configure_iptables.yml
+- include: vpn_configure_ipsec.yml
+- include: vpn_configure_xl2tpd.yml
+

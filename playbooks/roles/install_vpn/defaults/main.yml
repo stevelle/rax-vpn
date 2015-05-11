@@ -1,0 +1,4 @@
+---
+
+host_public_ip: "{{ ansible_eth0.ipv4.address }}"
+host_private_ip: "{{ ansible_eth0.ipv4.address }}"

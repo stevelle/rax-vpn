@@ -1,0 +1,54 @@
+---
+- name: install required packages 
+  apt: update=true cache_valid_time=3600 name="{{ item }}"
+  with_items:
+    - libnss3-dev
+    - libnspr4-dev
+    - pkg-config
+    - libpam0g-dev
+    - libcap-ng-dev
+    - libcap-ng-utils
+    - libselinux1-dev
+    - libcurl4-nss-dev
+    - libgmp3-dev
+    - flex
+    - bison
+    - gcc
+    - make
+    - libunbound-dev
+    - libnss3-tools
+    - xl2tpd
+  sudo: yes
+
+- name: create build directory
+  file: path=/opt/src/ state=directory
+
+- name: fetch libreswan
+  fetch:
+    flat=yes 
+    src=https://download.libreswan.org/libreswan-3.12.tar.gz 
+    dest=/opt/src/
+
+- name: expand libreswan tarball
+  unarchive: 
+    creates=/opt/src/libreswan-3.12 
+    copy=no
+    src=/opt/src/libreswan-3.12.tar.gz 
+    dest=/opt/src
+
+- name: build libreswan
+  shell: make programs 
+  args:
+    chdir: /opt/src/libreswan-3.12
+    creates: /xxxxxxxxTODOTODOTODOTODOusr/local/sbin/ipsec
+
+- name: install libreswan
+  command: make install
+    args:
+    chdir: /opt/src/libreswan-3.12
+    creates: /usr/local/sbin/ipsec
+  sudo: yes
+  
+- name: TODO TODO TODO all the config files
+  command: whoami
+

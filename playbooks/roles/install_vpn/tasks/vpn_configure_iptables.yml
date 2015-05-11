@@ -1,0 +1,19 @@
+---
+- name: Write iptables rules
+  template: 
+    src: "iptables.rules.j2"
+    dest: "/etc/iptables.rules"
+    mode: "0644"
+    backup: yes
+  sudo: yes
+
+- name: Configure reload of iptables on reboot
+  copy: 
+    src: "iptablesload" 
+    dest: "/etc/network/if-pre-up.d/iptablesload"
+    mode: "0744"
+  sudo: yes
+
+- name: Load iptables rules
+  shell: /sbin/iptables-restore < /etc/iptables.rules
+  sudo: yes
