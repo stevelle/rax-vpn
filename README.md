@@ -1,6 +1,8 @@
 # Create a disposable L2TP over IPSec VPN hosted on Rackspace public cloud
 
-
+WARNING:
+---
+This does *not* quite work yet. Connection is established with the VPN but network traffic to the public internet is not yet functional.
 
 based on https://gist.github.com/hwdsl2/9030462#file-vpnsetup-sh-L165
 
