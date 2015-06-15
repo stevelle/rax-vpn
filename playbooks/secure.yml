@@ -4,6 +4,12 @@
   hosts: rax-vpn
 
   tasks:
+    - name: Install packages
+      apt: update=yes name="{{ item }"
+      with_items:
+        - fail2ban
+        - vim
+
     - name: Create admin group
       group:
         name=admin
@@ -40,6 +46,18 @@
         dest=/etc/ssh/sshd_config
         regexp='^UseDNS'
         line='UseDNS no' 
+
+    - name: Disallow X11Forwarding
+      lineinfile:
+        dest=/etc/ssh/sshd_config
+        regexp='^X11Forwarding'
+        line='X11Forwarding no'
+
+    - name: Enable TCPKeepAlive
+      lineinfile:
+        dest=/etc/ssh/sshd_config
+        regexp='TCPKeepAlive'
+        line='TCPKeepAlive yes'
 
     - name: Whitelist operator
       lineinfile:
