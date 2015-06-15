@@ -1,7 +1,7 @@
 ---
 - name: Secure a new Rackspace host
   user: root
-  hosts: rax-vpn
+  hosts: "{{ rax_group|default('rax-vpn') }}"
 
   tasks:
     - name: Install packages

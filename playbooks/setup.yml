@@ -12,7 +12,7 @@
       region: "IAD"
       flavor: "2"
       image: "Ubuntu 14.04 LTS (Trusty Tahr) (PV)"
-      group: "rax-vpn"
+      group: "{{ rax_group|default('rax-vpn') }}"
       wait: yes
     register: rax
 
